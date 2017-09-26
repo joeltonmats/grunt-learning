@@ -1,0 +1,20 @@
+{
+  "name": "multi-resolution-images",
+  "version": "1.0.0",
+  "description": "",
+  "main": "GruntFile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "joelton",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "~0.4.4"
+  },
+  "dependencies": {
+    "grunt-contrib-copy": "~0.4.1",
+    "grunt-contrib-connect": "^0.7.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-responsive-images": "^1.10.1"
+  }
+}
