@@ -1,12 +1,7 @@
 module.exports = function (grunt) {
 
-    // ===========================================================================
-    // CONFIGURE GRUNT ===========================================================
-    // ===========================================================================
     grunt.initConfig({
 
-        // get the configuration info from package.json ----------------------------
-        // this way we can use things like name and version (pkg.name)
         pkg: grunt.file.readJSON('package.json'),
 
 
@@ -22,6 +17,7 @@ module.exports = function (grunt) {
             build: ['Gruntfile.js', 'src/**/*.js']
         },
 
+        // minify js files -----------------------------------
         uglify: {
             options: {
                 banner: '/\n <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> \n/\n'
@@ -34,14 +30,7 @@ module.exports = function (grunt) {
             }
         },
 
-        less: {
-            build: {
-                files: {
-                    'dist/css/pretty.css': 'src/css/pretty.less'
-                }
-            }
-        },
-
+        // minify css files -----------------------------------
         cssmin: {
             options: {
                 banner: '/*\n <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> \n*/\n'
@@ -77,6 +66,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-contrib-sass');
 
     grunt.registerTask('default', ['uglify', 'cssmin', 'less']);
 
