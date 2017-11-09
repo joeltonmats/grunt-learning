@@ -5,8 +5,6 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
 
-        // all of our configuration will go here
-
         // configure jshint to validate js files -----------------------------------
         jshint: {
             options: {
@@ -20,13 +18,22 @@ module.exports = function (grunt) {
         // minify js files -----------------------------------
         uglify: {
             options: {
-                banner: '/\n <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> \n/\n'
+                banner: '/*\n <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> \n*/\n'
             },
             dev: {
                 files: { 'dist/js/magic.min.js': ['src/js/magic.js', 'src/js/magic2.js'] }
             },
             production: {
-                files: { 'dist/js/magic.min.js': 'src/**/*.js' }
+                files: [{
+                    expand: true,
+                    src: ['app/assets/js/**/*.js', '!app/assets/js/**/*.min.js'],
+                    dest: 'dist/assets',
+                    cwd: '.',
+                    rename: function (dst, src) {
+                        src = (src.split('/')).slice(2).join('/');
+                        return dst + '/' + src.replace('.js', '.min.js');
+                    }
+                }]
             }
         },
 
@@ -35,10 +42,40 @@ module.exports = function (grunt) {
             options: {
                 banner: '/*\n <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> \n*/\n'
             },
-            build: {
-                files: {
-                    'dist/css/style.min.css': 'src/css/style.css'
-                }
+            production: {
+                files: [{
+                    expand: true, cwd: 'app/assets/css', src: ['*.css', '!*.min.css'], dest: 'dist/assets/css', ext: '.min.css'
+                }]
+            }
+        },
+
+        // copy files -----------------------------------
+        copy: {
+            production: {
+                files: [{ expand: true, cwd: './app', src: ['**'], dest: 'dist/' },],
+            },
+        },
+
+        // clean unecessary files -----------------------------------
+        clean: {
+            production: {
+                src: ['dist/assets/js/**/*.js', 'dist/assets/css/**/*.css', '!dist/assets/js/**/*.min.js', '!dist/assets/css/**/*.min.css']
+            }
+        },
+
+        replace: {
+            production: {
+                options: {
+                    patterns:
+                    [
+                        { match: /\.css/g, replacement: '.min.css' },
+                        { match: /<!-- Main Dev Scripts -->/, replacement: '<!-- Main Dev Scripts' },
+                        { match: /<!-- End Dev Scripts -->/, replacement: 'End Dev Scripts -- > ' },
+                        { match: /<!-- Main Prod Scripts/, replacement: '<!-- Main Prod Scripts -->' },
+                        { match: /<!-- Main Prod Scripts -->/, replacement: '<!-- End Prod Scripts -->' },
+                    ]
+                },
+                files: [{ expand: true, flatten: true, src: ['app/index.html'], dest: 'dist/' }]
             }
         },
 
@@ -56,24 +93,24 @@ module.exports = function (grunt) {
 
     });
 
-    // ===========================================================================
     // LOAD GRUNT PLUGINS ========================================================
-    // ===========================================================================
-    // we can only load these if they are in our package.json
-    // make sure you have run npm install so our app can find these
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
-    grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-contrib-htmlmin');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-replace');
+
 
     grunt.registerTask('default', ['uglify', 'cssmin', 'less']);
-
-    // this task will only run the dev configuration 
     grunt.registerTask('dev', [/* 'jshint:dev', */ 'uglify:dev'/* , 'cssmin:dev', 'less:dev' */]);
-
-    // only run production configuration 
-    grunt.registerTask('production', ['jshint:production', 'uglify:production', 'cssmin:production', 'less:production']);
+    grunt.registerTask('production',
+        [
+            'copy:production', 'cssmin:production', 'uglify:production',
+            'clean:production', 'replace:production'
+        ]); //, ''
 
 };
