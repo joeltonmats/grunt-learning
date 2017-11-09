@@ -19,6 +19,11 @@
     "grunt-contrib-uglify": "latest",
     "grunt-contrib-watch": "latest",
     "grunt-replace": "^1.0.1",
+    "grunt-responsive-images": "^1.10.1",
     "jshint-stylish": "latest"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2"
   }
 }

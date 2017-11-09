@@ -72,10 +72,36 @@ module.exports = function (grunt) {
                         { match: /<!-- Main Dev Scripts -->/, replacement: '<!-- Main Dev Scripts' },
                         { match: /<!-- End Dev Scripts -->/, replacement: 'End Dev Scripts -- > ' },
                         { match: /<!-- Main Prod Scripts/, replacement: '<!-- Main Prod Scripts -->' },
-                        { match: /<!-- Main Prod Scripts -->/, replacement: '<!-- End Prod Scripts -->' },
+                        { match: /End Prod Scripts -->/, replacement: '<!-- End Prod Scripts -->' },
                     ]
                 },
                 files: [{ expand: true, flatten: true, src: ['app/index.html'], dest: 'dist/' }]
+            }
+        },
+
+        responsive_images: {
+            production: {
+                options: {
+                    sizes: [
+                        {
+                            width: 320,
+                            name: 'small'
+                        },
+                        {
+                            width: 640,
+                            name: 'medium'
+                        },
+                        {
+                            width: 800,
+                            name: 'large'
+                        }]
+                },
+                files: [{
+                    expand: true,
+                    src: ['**/*.{jpeg,gif,png}'],
+                    cwd: 'app/assets/images/',
+                    dest: 'dist/assets/images/'
+                }]
             }
         },
 
@@ -103,6 +129,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-replace');
+    grunt.loadNpmTasks('grunt-responsive-images');
 
 
     grunt.registerTask('default', ['uglify', 'cssmin', 'less']);
