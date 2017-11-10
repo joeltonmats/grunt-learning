@@ -44,12 +44,15 @@ module.exports = function (grunt) {
             production: {
                 files: [{ expand: true, cwd: './app', src: ['**'], dest: 'dist/' },],
             },
+            optimizeImg: {
+                files: [{ expand: true, cwd: './app/assets/images', src: ['**'], dest: 'dist/assets/images' },],
+            }
         },
 
         // clean unecessary files -----------------------------------
         clean: {
             production: {
-                src: ['dist/assets/js/**/*.js', 'dist/assets/css/**/*.css', 'dist/assets/images/**/*.jpeg', '!dist/assets/js/**/*.min.js', '!dist/assets/css/**/*.min.css']
+                src: ['dist/assets/js/**/*.js', 'dist/assets/css/**/*.css', '!dist/assets/js/**/*.min.js', '!dist/assets/css/**/*.min.css']
             }
         },
 
@@ -90,7 +93,7 @@ module.exports = function (grunt) {
                     expand: true,
                     src: ['**/*.{jpeg,gif,png}'],
                     cwd: 'app/assets/images/',
-                    dest: 'dist/assets/images/'
+                    dest: 'app/assets/images/'
                 }]
             }
         },
@@ -99,7 +102,7 @@ module.exports = function (grunt) {
             // for stylesheets, watch css and less files 
             // only run less and cssmin stylesheets: { 
             files: ['app/index.html'],
-            tasks: ['copy:production', 'cssmin:production', 'uglify:production', 'clean:production', 'replace:production', 'responsive_images:production']
+            tasks: ['copy:production', 'cssmin:production', 'uglify:production', 'clean:production', 'replace:production']
         },
 
     });
@@ -118,10 +121,13 @@ module.exports = function (grunt) {
 
 
     grunt.registerTask('default', ['uglify', 'cssmin', 'less']);
+
+    grunt.registerTask('optimize-img', ['responsive_images:production', 'copy:optimizeImg']);
+
     grunt.registerTask('production',
         [
-            'copy:production', 'cssmin:production', 'uglify:production',
-            'clean:production', 'replace:production', 'responsive_images:production'
-        ]); //, ''
+            'copy:production', 'cssmin:production',
+            'clean:production', 'replace:production', 'uglify:production'
+        ]);
 
 };

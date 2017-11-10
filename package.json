@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "grunt production",
-    "start": "node server.js"
+    "start": "node server.js",
+    "optimize-img": "grunt optimize-img"
   },
   "author": "joelton",
   "license": "ISC",
