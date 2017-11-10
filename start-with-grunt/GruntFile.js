@@ -59,7 +59,7 @@ module.exports = function (grunt) {
         // clean unecessary files -----------------------------------
         clean: {
             production: {
-                src: ['dist/assets/js/**/*.js', 'dist/assets/css/**/*.css', '!dist/assets/js/**/*.min.js', '!dist/assets/css/**/*.min.css']
+                src: ['dist/assets/js/**/*.js', 'dist/assets/css/**/*.css', 'dist/assets/images/**/*.jpeg','!dist/assets/js/**/*.min.js', '!dist/assets/css/**/*.min.css']
             }
         },
 
@@ -109,7 +109,7 @@ module.exports = function (grunt) {
             // for stylesheets, watch css and less files 
             // only run less and cssmin stylesheets: { 
             files: ['app/index.html'],
-            tasks: ['copy:production', 'cssmin:production', 'uglify:production', 'clean:production', 'replace:production']
+            tasks: ['copy:production', 'cssmin:production', 'uglify:production', 'clean:production', 'replace:production','responsive_images:production']
         },
 
         // for scripts, run jshint and uglify 
@@ -137,7 +137,7 @@ module.exports = function (grunt) {
     grunt.registerTask('production',
         [
             'copy:production', 'cssmin:production', 'uglify:production',
-            'clean:production', 'replace:production'
+            'clean:production', 'replace:production','responsive_images:production'
         ]); //, ''
 
 };
