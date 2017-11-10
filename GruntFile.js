@@ -5,16 +5,6 @@ module.exports = function (grunt) {
         pkg: grunt.file.readJSON('package.json'),
 
 
-        // configure jshint to validate js files -----------------------------------
-        jshint: {
-            options: {
-                reporter: require('jshint-stylish') // use jshint-stylish to make our errors look and read good
-            },
-
-            // when this task is run, lint the Gruntfile and all js files in src
-            build: ['Gruntfile.js', 'src/**/*.js']
-        },
-
         // minify js files -----------------------------------
         uglify: {
             options: {
@@ -59,7 +49,7 @@ module.exports = function (grunt) {
         // clean unecessary files -----------------------------------
         clean: {
             production: {
-                src: ['dist/assets/js/**/*.js', 'dist/assets/css/**/*.css', 'dist/assets/images/**/*.jpeg','!dist/assets/js/**/*.min.js', '!dist/assets/css/**/*.min.css']
+                src: ['dist/assets/js/**/*.js', 'dist/assets/css/**/*.css', 'dist/assets/images/**/*.jpeg', '!dist/assets/js/**/*.min.js', '!dist/assets/css/**/*.min.css']
             }
         },
 
@@ -109,13 +99,8 @@ module.exports = function (grunt) {
             // for stylesheets, watch css and less files 
             // only run less and cssmin stylesheets: { 
             files: ['app/index.html'],
-            tasks: ['copy:production', 'cssmin:production', 'uglify:production', 'clean:production', 'replace:production','responsive_images:production']
+            tasks: ['copy:production', 'cssmin:production', 'uglify:production', 'clean:production', 'replace:production', 'responsive_images:production']
         },
-
-        // for scripts, run jshint and uglify 
-        scripts: {
-            files: 'src/**/*.js', tasks: ['jshint', 'uglify']
-        }
 
     });
 
@@ -133,11 +118,10 @@ module.exports = function (grunt) {
 
 
     grunt.registerTask('default', ['uglify', 'cssmin', 'less']);
-    grunt.registerTask('dev', [/* 'jshint:dev', */ 'uglify:dev'/* , 'cssmin:dev', 'less:dev' */]);
     grunt.registerTask('production',
         [
             'copy:production', 'cssmin:production', 'uglify:production',
-            'clean:production', 'replace:production','responsive_images:production'
+            'clean:production', 'replace:production', 'responsive_images:production'
         ]); //, ''
 
 };
