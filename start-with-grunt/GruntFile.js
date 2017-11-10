@@ -108,8 +108,8 @@ module.exports = function (grunt) {
         watch: {
             // for stylesheets, watch css and less files 
             // only run less and cssmin stylesheets: { 
-            files: ['src/**/*.css', 'src/**/*.less'],
-            tasks: ['less', 'cssmin']
+            files: ['app/index.html'],
+            tasks: ['copy:production', 'cssmin:production', 'uglify:production', 'clean:production', 'replace:production']
         },
 
         // for scripts, run jshint and uglify 

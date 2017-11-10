@@ -2625,7 +2625,7 @@ button:disabled,
     background-color: #333;
     color: rgba(255, 255, 255, 0.75);
     background-attachment: fixed, fixed;
-    background-image: url("images/overlay1.png"), url("../images/header.jpeg");
+    background-image: url("images/overlay1.png"), url("../images/header-large.jpeg");
     background-size: auto, cover;
 }
 
