@@ -12,12 +12,12 @@
 
 <pre><code>
 PROJECT_FOLDER$ npm install
-</code><pre>
+</code></pre>
 
 * After download all dependencies
 
 <pre><code>
 PROJECT_FOLDER$ npm start
-</code><pre>
+</code></pre>
 
 * Open your browser on localhost:3000
